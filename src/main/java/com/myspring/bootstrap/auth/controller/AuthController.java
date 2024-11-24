@@ -5,6 +5,7 @@ import com.myspring.bootstrap.auth.service.AuthService;
 import com.myspring.bootstrap.shared.response.ResponseFail;
 import com.myspring.bootstrap.shared.response.ResponseSuccess;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +19,8 @@ import java.util.Map;
 @RestController
 public class AuthController {
 
+    @Autowired
     public AuthService authService;
-
-    public AuthController(AuthService authService) {
-        this.authService = authService;
-    }
 
     // @ModelAttribute
     @PostMapping(value = "/api/auth/signup", consumes = MediaType.APPLICATION_JSON_VALUE)
