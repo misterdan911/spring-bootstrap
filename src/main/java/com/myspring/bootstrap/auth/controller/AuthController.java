@@ -1,6 +1,7 @@
-package com.myspring.bootstrap.auth;
+package com.myspring.bootstrap.auth.controller;
 
 import com.myspring.bootstrap.auth.dto.SignUpDto;
+import com.myspring.bootstrap.auth.service.AuthService;
 import com.myspring.bootstrap.shared.response.ResponseFail;
 import com.myspring.bootstrap.shared.response.ResponseSuccess;
 import jakarta.validation.Valid;
@@ -17,10 +18,18 @@ import java.util.Map;
 @RestController
 public class AuthController {
 
+    public AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
+
     // @ModelAttribute
     @PostMapping(value = "/api/auth/signup", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> signUp(@Valid @RequestBody SignUpDto signUpDto)
     {
+        authService.signUp(signUpDto);
+
         ResponseSuccess response = new ResponseSuccess(signUpDto);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
