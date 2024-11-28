@@ -4,8 +4,11 @@ import com.myspring.bootstrap.auth.dto.SignUpDto;
 import com.myspring.bootstrap.auth.service.AuthService;
 import com.myspring.bootstrap.shared.response.ResponseFail;
 import com.myspring.bootstrap.shared.response.ResponseSuccess;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.antlr.v4.runtime.atn.ErrorInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +48,13 @@ public class AuthController {
         });
 
         ResponseFail response = new ResponseFail(errors);
+        return response;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseFail duplicateEmailException(HttpServletRequest req, DataIntegrityViolationException e) {
+        ResponseFail response = new ResponseFail(e.getMessage());
         return response;
     }
 }

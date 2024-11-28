@@ -1,5 +1,6 @@
 package com.myspring.bootstrap.auth.dto;
 
+import com.myspring.bootstrap.auth.validation.EmailNotDuplicate;
 import com.myspring.bootstrap.auth.validation.StrongPassword;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -14,6 +15,7 @@ public class SignUpDto {
     private String username;
 
     @NotBlank(message = "Email is mandatory")
+    @EmailNotDuplicate
     private String email;
 
     @NotBlank(message = "Password is mandatory")

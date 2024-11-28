@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
+
 //@NoArgsConstructor
 @Table(name = "users")
 @Data
@@ -18,5 +20,7 @@ public class User {
     private String username;
     private String email;
     private String password;
+    private Date created_at;
+    private Date updated_at;
 
 }
