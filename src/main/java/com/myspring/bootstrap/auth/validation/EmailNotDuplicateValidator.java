@@ -1,17 +1,28 @@
 package com.myspring.bootstrap.auth.validation;
 
+import com.myspring.bootstrap.entity.User;
+import com.myspring.bootstrap.repository.UserRepository;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Optional;
 
 public class EmailNotDuplicateValidator implements ConstraintValidator<EmailNotDuplicate, String> {
 
-    @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
-        // check if string contains at least one digit, one lowercase letter, one uppercase letter, one special character and 8 characters long
-        // return value.matches("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!*()]).{8,}$");
-        context.disableDefaultConstraintViolation();
-        context.buildConstraintViolationWithTemplate("The email '" + value + "' is already in use.").addConstraintViolation();
-        return false;
-    }
+    @Autowired
+    UserRepository userRepository;
 
+    @Override
+    public boolean isValid(String email, ConstraintValidatorContext context) {
+
+        Optional<User> rsUser = userRepository.findByEmail(email);
+        if (rsUser.isPresent()) {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate("The email '" + email + "' is already in use.").addConstraintViolation();
+            return false;
+        }
+
+        return true;
+    }
 }

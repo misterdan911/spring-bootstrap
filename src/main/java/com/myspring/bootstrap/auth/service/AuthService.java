@@ -18,12 +18,6 @@ public class AuthService {
 
     public void signUp(SignUpDto signUpDto) {
 
-        Optional<User> optUser = userRepository.findByEmail(signUpDto.getEmail());
-        if (optUser.isPresent()) {
-            User userr = optUser.get();
-            System.out.println(userr.getEmail());
-        }
-
         BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 
         User user = new User();
