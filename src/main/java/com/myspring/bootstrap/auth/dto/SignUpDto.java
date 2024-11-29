@@ -8,6 +8,8 @@ import lombok.Data;
 @Data
 public class SignUpDto {
 
+    private Long id;
+
     @NotBlank(message = "Name is mandatory")
     private String name;
 

@@ -16,7 +16,7 @@ public class AuthService {
     @Autowired
     UserRepository userRepository;
 
-    public void signUp(SignUpDto signUpDto) {
+    public User signUp(SignUpDto signUpDto) {
 
         BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 
@@ -28,6 +28,6 @@ public class AuthService {
         user.setCreated_at(new Date());
         user.setUpdated_at(new Date());
 
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 }
