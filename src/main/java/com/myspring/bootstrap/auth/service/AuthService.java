@@ -1,6 +1,8 @@
 package com.myspring.bootstrap.auth.service;
 
+import com.myspring.bootstrap.auth.dto.LoginUpDto;
 import com.myspring.bootstrap.auth.dto.SignUpDto;
+import com.myspring.bootstrap.auth.exception.InvalidLoginException;
 import com.myspring.bootstrap.entity.User;
 import com.myspring.bootstrap.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +31,15 @@ public class AuthService {
         user.setUpdated_at(new Date());
 
         return userRepository.save(user);
+    }
+
+    public void login(LoginUpDto loginDto) {
+        Optional<User> rsUser = userRepository.findByUsername(loginDto.getUsername());
+        if (rsUser.isEmpty()) {
+            rsUser = userRepository.findByEmail(loginDto.getUsername());
+            if (rsUser.isEmpty()) {
+                throw new InvalidLoginException("Invalid Username, E-Mail, or Password");
+            }
+        }
     }
 }

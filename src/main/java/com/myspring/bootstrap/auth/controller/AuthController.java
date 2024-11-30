@@ -1,8 +1,11 @@
 package com.myspring.bootstrap.auth.controller;
 
+import com.myspring.bootstrap.auth.dto.LoginUpDto;
 import com.myspring.bootstrap.auth.dto.SignUpDto;
+import com.myspring.bootstrap.auth.exception.InvalidLoginException;
 import com.myspring.bootstrap.auth.service.AuthService;
 import com.myspring.bootstrap.entity.User;
+import com.myspring.bootstrap.shared.response.ResponseFail;
 import com.myspring.bootstrap.shared.response.ResponseSuccess;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +28,18 @@ public class AuthController {
         signUpDto.setId(newUser.getId());
         ResponseSuccess<SignUpDto> response = new ResponseSuccess<>(signUpDto);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/api/auth/login", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> login(@Valid @RequestBody LoginUpDto loginDto)
+    {
+        authService.login(loginDto);
+        return ResponseEntity.ok("Oke");
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(InvalidLoginException.class)
+    public ResponseFail<String> InvalidLogin(InvalidLoginException ex) {
+        return new ResponseFail<String>(ex.getMessage());
     }
 }

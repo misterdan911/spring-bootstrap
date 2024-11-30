@@ -1,7 +1,6 @@
 package com.myspring.bootstrap.entity;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
