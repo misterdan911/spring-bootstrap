@@ -33,13 +33,25 @@ public class AuthService {
         return userRepository.save(user);
     }
 
-    public void login(LoginUpDto loginDto) {
+    public User authenticateUser(LoginUpDto loginDto) {
         Optional<User> rsUser = userRepository.findByUsername(loginDto.getUsername());
+
+        // Check by username or email
         if (rsUser.isEmpty()) {
             rsUser = userRepository.findByEmail(loginDto.getUsername());
             if (rsUser.isEmpty()) {
-                throw new InvalidLoginException("Invalid Username, E-Mail, or Password");
+                throw new InvalidLoginException();
             }
         }
+
+        User user = rsUser.get();
+        BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
+        boolean pwdMatched = pwdEncoder.matches(loginDto.getPassword(), user.getPassword());
+
+        if (!pwdMatched) {
+            throw new InvalidLoginException();
+        }
+
+        return user;
     }
 }

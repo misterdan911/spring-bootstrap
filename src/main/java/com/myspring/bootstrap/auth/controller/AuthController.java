@@ -31,13 +31,14 @@ public class AuthController {
     }
 
     @PostMapping(value = "/api/auth/login", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> login(@Valid @RequestBody LoginUpDto loginDto)
+    public ResponseEntity<?> login(@Valid @RequestBody LoginUpDto loginDto)
     {
-        authService.login(loginDto);
-        return ResponseEntity.ok("Oke");
+        User user = authService.authenticateUser(loginDto);
+        ResponseSuccess<String> response = new ResponseSuccess<>("Login success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(InvalidLoginException.class)
     public ResponseFail<String> InvalidLogin(InvalidLoginException ex) {
         return new ResponseFail<String>(ex.getMessage());
