@@ -1,13 +1,11 @@
 package com.myspring.bootstrap.auth.service;
 
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,8 +17,8 @@ public class JwtService {
     @Value("${security.jwt.secret-key}")
     private String secretKey;
 
-    private final String SECRET = "your-secret-key"; // Replace with a secure secret key
-    private final long EXPIRATION_TIME = 900_000; // 15 minutes
+    @Value("${security.jwt.expiration-time}")
+    private long jwtExpiration;
 
     public String generateToken() {
         return "abc123";
@@ -46,6 +44,7 @@ public class JwtService {
 
         String jws = Jwts.builder()
                 .subject(subject)
+                .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(getSignInKey())
                 .compact();
 
