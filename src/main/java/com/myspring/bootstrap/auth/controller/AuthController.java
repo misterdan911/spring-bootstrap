@@ -1,9 +1,11 @@
 package com.myspring.bootstrap.auth.controller;
 
-import com.myspring.bootstrap.auth.dto.LoginUpDto;
+import com.myspring.bootstrap.auth.dto.LoginDto;
+import com.myspring.bootstrap.auth.dto.LoginResponseDto;
 import com.myspring.bootstrap.auth.dto.SignUpDto;
 import com.myspring.bootstrap.auth.exception.InvalidLoginException;
 import com.myspring.bootstrap.auth.service.AuthService;
+import com.myspring.bootstrap.auth.service.JwtService;
 import com.myspring.bootstrap.entity.User;
 import com.myspring.bootstrap.shared.response.ResponseFail;
 import com.myspring.bootstrap.shared.response.ResponseSuccess;
@@ -20,6 +22,9 @@ public class AuthController {
     @Autowired
     public AuthService authService;
 
+    @Autowired
+    public JwtService jwtService;
+
     // @ModelAttribute
     @PostMapping(value = "/api/auth/signup", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> signUp(@Valid @RequestBody SignUpDto signUpDto)
@@ -31,10 +36,19 @@ public class AuthController {
     }
 
     @PostMapping(value = "/api/auth/login", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> login(@Valid @RequestBody LoginUpDto loginDto)
+    public ResponseEntity<?> login(@Valid @RequestBody LoginDto loginDto)
     {
         User user = authService.authenticateUser(loginDto);
-        ResponseSuccess<String> response = new ResponseSuccess<>("Login success");
+        String jwtToken = jwtService.generateToken(user.getUsername());
+
+        LoginResponseDto responseDto = new LoginResponseDto();
+        responseDto.setId(user.getId());
+        responseDto.setUsername(user.getUsername());
+        responseDto.setName(user.getName());
+        responseDto.setEmail(user.getEmail());
+        responseDto.setJwtToken(jwtToken);
+
+        ResponseSuccess<LoginResponseDto> response = new ResponseSuccess<>(responseDto);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
