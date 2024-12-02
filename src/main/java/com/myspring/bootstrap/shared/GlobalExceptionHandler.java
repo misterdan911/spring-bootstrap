@@ -1,6 +1,7 @@
 package com.myspring.bootstrap.shared;
 
 import com.myspring.bootstrap.shared.response.ResponseFail;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -41,4 +42,13 @@ public class GlobalExceptionHandler {
         }
         return new ResponseFail<String>(errMsg);
     }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(SignatureException.class)
+    public @ResponseBody ResponseFail<String> invalidJwtToken(SignatureException e) {
+        String errMsg = "Invalid JWT Token";
+        return new ResponseFail<String>(errMsg);
+    }
+
+
 }
