@@ -1,4 +1,4 @@
-package com.myspring.bootstrap.config;
+package com.myspring.bootstrap.shared.config;
 
 import com.myspring.bootstrap.shared.jwtutils.JwtAuthenticationEntryPoint;
 import com.myspring.bootstrap.shared.jwtutils.JwtAuthenticationFilter;
