@@ -3,7 +3,7 @@ package com.myspring.bootstrap.shared.response;
 import lombok.Data;
 
 @Data
-public class ResponseSuccess<T> implements Response {
+public class ResponseSuccess<T> {
 
     private String status;
     private T data;

@@ -1,7 +1,7 @@
 package com.myspring.bootstrap.user.controller;
 
 import com.myspring.bootstrap.entity.User;
-import com.myspring.bootstrap.user.response.ResponseSuccessPaging;
+import com.myspring.bootstrap.shared.response.ResponseSuccessPaging;
 import com.myspring.bootstrap.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,6 +34,4 @@ public class UserController {
 
         return new ResponseEntity<>(responseUser, HttpStatus.OK);
     }
-
-
 }

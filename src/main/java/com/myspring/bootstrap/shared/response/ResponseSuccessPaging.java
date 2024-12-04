@@ -1,4 +1,4 @@
-package com.myspring.bootstrap.user.response;
+package com.myspring.bootstrap.shared.response;
 
 
 import lombok.Data;
