@@ -6,6 +6,10 @@ import lombok.Data;
 public class ResponseSuccess<T> {
 
     private String status;
+
+    public ResponseSuccess() {
+    }
+
     private T data;
 
     public ResponseSuccess(T data) {
