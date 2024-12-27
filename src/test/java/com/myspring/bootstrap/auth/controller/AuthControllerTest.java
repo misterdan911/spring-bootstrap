@@ -38,16 +38,14 @@ class AuthControllerTest {
         signUpDto.setPassword("12345678Aa!");
 
         mockMvc.perform(
-                post("/api/auth/signup")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(signUpDto))
+            post("/api/auth/signup")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(signUpDto))
         ).andExpectAll(
-                status().isOk()
+            status().isOk()
         ).andDo(result -> {
-            ResponseSuccess<SignUpDto> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
-            });
-
+            ResponseSuccess<SignUpDto> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {});
             assertEquals("yusmi", response.getData().getUsername());
         });
     }

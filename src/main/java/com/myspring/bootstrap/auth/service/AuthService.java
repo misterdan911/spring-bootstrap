@@ -38,7 +38,7 @@ public class AuthService {
 
         // get user by username or email
         if (rsUser.isEmpty()) {
-            rsUser = userRepository.findByEmail(loginDto.getUsername());
+            rsUser = userRepository.findByEmail(loginDto.getEmail());
             if (rsUser.isEmpty()) {
                 throw new InvalidLoginException();
             }
